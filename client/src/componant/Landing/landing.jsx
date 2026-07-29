@@ -43,18 +43,13 @@ const Hero = () => {
           <Button
             variant="contained"
             component={Link}
-            to={"/fields"} 
+            to={"/fields"}
             color="success"
             size="large"
             startIcon={<SportsSoccerIcon />}
             sx={{ px: 4, py: 1.5, fontSize: "1.1rem", borderRadius: "30px" }}
           >
-            <Link
-              to="/fields"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              استعرض الملاعب
-            </Link>
+            استعرض الملاعب
           </Button>
           <Button
             component={Link}

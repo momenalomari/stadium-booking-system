@@ -10,6 +10,9 @@ const Footer = () => {
         color: 'white',
         py: 3,
         textAlign: 'center',
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
       }}
     >
       <Typography variant="body2">

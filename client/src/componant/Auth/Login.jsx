@@ -105,24 +105,3 @@ export default function Login() {
   );
 } 
 
-
-// import React, { useState } from "react";
-// import { Box, TextField, Button, Typography, Container, Paper } from "@mui/material";
-// import axios from "axios";
-// import { toast } from "react-toastify";
-
-// export default function Login() {
-//   const [formData, setFormData] = useState({
-//     email: "",
-//     password: "",
-//   }); 
-//   const [loading, setLoading] = useState(false);
-// };
-// try{
-//   const res = await axios.post("http://localhost:5000/api/users/login", formData);
-//   toast.success(res.data.message || "تم تسجيل الدخول بنجاح! ⚽", {
-//     toastId: "login_success"
-//   });
-//   localStorage.setItem("token", res.data.Token);
-
-// }

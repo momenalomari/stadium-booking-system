@@ -10,9 +10,12 @@ export const useUser = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/users");
-        setUsers(response.data);
-        
+        const response = await axios.get(
+          "http://localhost:5000/api/users/users",
+        );
+        // حاول الوصول لاسم الخاصية الصحيح (مثلاً data أو users)
+        setUsers(response.data.users || response.data || []);
+
         if (response.data.length === 0) {
           toast.warn("لا يوجد مستخدمين حالياً ⚠️", {
             toastId: "warning_no_users",
