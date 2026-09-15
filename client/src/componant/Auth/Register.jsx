@@ -6,6 +6,10 @@ import {
   Typography,
   Container,
   Paper,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -18,6 +22,10 @@ const Register = () => {
     email: "",
     password: "",
     confirm_password: "",
+    role: "user",
+    latitude: "",
+    longitude: "",
+    ownershipProof: null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -28,6 +36,13 @@ const Register = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleProofChange = (e) => {
+    setFormData({
+      ...formData,
+      ownershipProof: e.target.files?.[0] || null,
     });
   };
 
@@ -51,15 +66,71 @@ const Register = () => {
       return;
     }
 
+    if (formData.role === "owner") {
+      const latitude = Number(formData.latitude);
+      const longitude = Number(formData.longitude);
+
+      if (
+        !formData.latitude ||
+        !formData.longitude ||
+        !Number.isFinite(latitude) ||
+        latitude < -90 ||
+        latitude > 90 ||
+        !Number.isFinite(longitude) ||
+        longitude < -180 ||
+        longitude > 180
+      ) {
+        toast.error("أدخل إحداثيات صحيحة للملعب");
+        return;
+      }
+
+      if (!formData.ownershipProof) {
+        toast.error("الرجاء إرفاق إثبات ملكية الملعب");
+        return;
+      }
+
+      const allowedProofTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+      ];
+      if (
+        !allowedProofTypes.includes(formData.ownershipProof.type) ||
+        formData.ownershipProof.size > 10 * 1024 * 1024
+      ) {
+        toast.error("إثبات الملكية يجب أن يكون PDF أو صورة بحجم أقصى 10MB");
+        return;
+      }
+    }
+
     // إذا وصلنا لهون، معناها البيانات ممتازة واليوزر مش ناسي إشي
     setLoading(true);
 
     try {
+      let requestData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirm_password: formData.confirm_password,
+        role: formData.role,
+      };
+
+      if (formData.role === "owner") {
+        const ownerRequestData = new FormData();
+        Object.entries(requestData).forEach(([key, value]) => {
+          ownerRequestData.append(key, value);
+        });
+        ownerRequestData.append("latitude", formData.latitude);
+        ownerRequestData.append("longitude", formData.longitude);
+        ownerRequestData.append("ownershipProof", formData.ownershipProof);
+        requestData = ownerRequestData;
+      }
+
       // إرسال طلب POST للباك إند ومعه بيانات المستخدم
       // غيرنا الكلمة الأخيرة من register إلى create_user
       const response = await axios.post(
         "http://localhost:5000/api/users/create_user",
-        formData,
+        requestData,
       );
 
       toast.success(response.data.message || "تم إنشاء الحساب بنجاح! 🎉", {
@@ -145,6 +216,67 @@ const Register = () => {
               value={formData.confirm_password}
               onChange={handleChange}
             />
+            <FormControl fullWidth margin="normal" required>
+              <InputLabel id="account-type-label">نوع الحساب</InputLabel>
+              <Select
+                labelId="account-type-label"
+                label="نوع الحساب"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+              >
+                <MenuItem value="user">مستخدم</MenuItem>
+                <MenuItem value="owner">صاحب ملعب</MenuItem>
+              </Select>
+            </FormControl>
+            {formData.role === "owner" && (
+              <Box sx={{ mt: 1 }}>
+                <Typography variant="subtitle2" sx={{ mt: 2, color: "#006722" }}>
+                  بيانات الملعب وإثبات الملكية
+                </Typography>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="خط العرض (Latitude)"
+                  name="latitude"
+                  type="number"
+                  inputProps={{ min: -90, max: 90, step: "any" }}
+                  value={formData.latitude}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="خط الطول (Longitude)"
+                  name="longitude"
+                  type="number"
+                  inputProps={{ min: -180, max: 180, step: "any" }}
+                  value={formData.longitude}
+                  onChange={handleChange}
+                />
+                <Button
+                  component="label"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mt: 2, borderRadius: "20px" }}
+                >
+                  {formData.ownershipProof
+                    ? formData.ownershipProof.name
+                    : "إرفاق إثبات الملكية"}
+                  <input
+                    hidden
+                    type="file"
+                    accept=".pdf,image/jpeg,image/png"
+                    onChange={handleProofChange}
+                  />
+                </Button>
+                <Typography variant="caption" color="text.secondary">
+                  PDF أو JPG أو PNG، بحد أقصى 10MB
+                </Typography>
+              </Box>
+            )}
             <Button
               type="submit"
               fullWidth
