@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 // استدعاء أدوات التوست
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import Hero from "./componant/Landing/landing.jsx";
 import Navbar from "./componant/layout/Navbar/navbar.jsx";
@@ -52,38 +51,10 @@ function AppContent() {
 
 // الكومبوننت الرئيسي اللي بيغلف كل إشي
 function App() {
-  const theme = createTheme({
-    direction: "rtl",
-    palette: {
-      primary: { main: "#0f766e" },
-      secondary: { main: "#f59e0b" },
-      background: { default: "#f5f7f6", paper: "#ffffff" },
-    },
-    typography: {
-      fontFamily: '"Tajawal", "Segoe UI", Arial, sans-serif',
-      h1: { fontWeight: 800 },
-      h2: { fontWeight: 800 },
-      h3: { fontWeight: 800 },
-      button: { fontWeight: 700 },
-    },
-    shape: { borderRadius: 16 },
-    components: {
-      MuiButton: {
-        defaultProps: { disableElevation: true },
-        styleOverrides: { root: { borderRadius: 12, textTransform: "none" } },
-      },
-      MuiTextField: {
-        defaultProps: { variant: "outlined", dir: "rtl" },
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
   );
 }
 

@@ -9,7 +9,7 @@ const Hero = () => {
       sx={{
         width: "100%",
         height: "100%",
-        minHeight: { xs: "78vh", md: "82vh" },
+        minHeight: "90vh",
         backgroundImage:
           'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://i.pinimg.com/1200x/f9/ae/7b/f9ae7b7d06b08c85aff75c24db06d767.jpg")',
         backgroundSize: "cover", // قمنا بتغيير هذه الكلمة
@@ -18,7 +18,7 @@ const Hero = () => {
         display: "flex",
         alignItems: "center",
         color: "white",
-        textAlign: { xs: "right", md: "center" },
+        textAlign: "center",
       }}
     >
       <Container maxWidth="md">
@@ -28,39 +28,38 @@ const Hero = () => {
           sx={{
             fontWeight: "bold",
             mb: 2,
-            color: "white",
-            textShadow: "0 3px 20px rgba(0,0,0,.35)",
-            fontSize: { xs: "2.4rem", md: "4rem" },
+            color: "#FFD700",
+            textShadow: "2px 2px 4px rgba(255, 255, 255, 0.5)",
           }}
         >
           احجز ملعبك المفضل في ثوانٍ
         </Typography>
 
-        <Typography variant="h5" sx={{ mb: 4, opacity: 0.9, maxWidth: 680, mx: { xs: 0, md: "auto" }, lineHeight: 1.7 }}>
+        <Typography variant="h5" sx={{ mb: 4, opacity: 0.9 }}>
           نظام حجز الملاعب الأسرع في إربد.. اختر وقتك، ادفع، وانطلق للعب!
         </Typography>
 
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} justifyContent="center">
+        <Stack direction="row" spacing={2} justifyContent="center">
           <Button
             variant="contained"
             component={Link}
             to={"/fields"}
-            color="secondary"
+            color="success"
             size="large"
             startIcon={<SportsSoccerIcon />}
-            sx={{ px: 4, py: 1.5, fontSize: "1.05rem" }}
+            sx={{ px: 4, py: 1.5, fontSize: "1.1rem", borderRadius: "30px" }}
           >
             استعرض الملاعب
           </Button>
           <Button
             component={Link}
-            to={"/register"}
+            to={"/contact"}
             variant="outlined"
             color="inherit"
             size="large"
-            sx={{ px: 4, py: 1.5, fontSize: "1.05rem", border: "2px solid" }}
+            sx={{ px: 4, py: 1.5, fontSize: "1.1rem", borderRadius: "30px", border: "2px solid", "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.1)" } }}
           >
-            سجّل الآن
+            تواصل معنا
           </Button>
         </Stack>
       </Container>
