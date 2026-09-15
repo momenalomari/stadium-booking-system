@@ -8,7 +8,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { useFields } from "../Hooks/useField"; // تأكد من مسار مجلد الهوك
-import { Link } from "react-router-dom";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 
 const FieldsList = () => {
@@ -24,13 +24,16 @@ const FieldsList = () => {
   }
 
   return (
-    <Box sx={{ p: 4, backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
+    <Box sx={{ px: { xs: 2, md: 5 }, py: { xs: 4, md: 7 }, backgroundColor: "#f5f7f6", minHeight: "100vh" }}>
       <Typography
         variant="h3"
         align="center"
-        sx={{ mb: 6, fontWeight: "bold", color: "#006722" }}
+        sx={{ mb: 1, fontWeight: "bold", color: "#123c36" }}
       >
         الملاعب المتاحة
+      </Typography>
+      <Typography align="center" color="text.secondary" sx={{ mb: 5 }}>
+        اختر الملعب المناسب واحجز وقتك بسهولة
       </Typography>
 
       <Box
@@ -45,10 +48,10 @@ const FieldsList = () => {
         {fields.map((field) => (
           <Card
             key={field._id}
-            sx={{ width: 345, borderRadius: "15px", boxShadow: 3 }}
+            sx={{ width: { xs: "100%", sm: 345 }, borderRadius: 3, boxShadow: "0 12px 30px rgba(18,60,54,.08)", overflow: "hidden", transition: "transform .2s", "&:hover": { transform: "translateY(-5px)" } }}
           >
             <CardContent sx={{ textAlign: "center" }}>
-              <Typography gutterBottom variant="h5" sx={{ fontWeight: "bold" }}>
+              <Typography gutterBottom variant="h5" sx={{ fontWeight: "bold", color: "#18312d" }}>
                 {field.name}
               </Typography>
               <img
@@ -63,8 +66,8 @@ const FieldsList = () => {
                 }}
               />
 
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                الموقع: {field.location}
+              <Typography variant="body2" color="text.secondary" sx={{ mb: 1, display: "flex", alignItems: "center", gap: .5 }}>
+                <LocationOnIcon fontSize="small" color="primary" /> {field.location}
               </Typography>
               <Typography variant="h6" color="primary" sx={{ mb: 2 }}>
                 {field.pricePerHour} دينار / ساعة

@@ -8,13 +8,8 @@ export default function AdminFooter() {
       backgroundColor: '#1E293B', // نفس لون النافبار
       color: '#94A3B8', // لون سكني فاتح مريح للقراءة
       padding: '20px 40px', 
-      borderTop: '2px solid #0F172A', // خط علوي أغمق شوي يفصل الفوتر عن المحتوى
-      marginTop: 'auto' // عشان يضل دايماً بأسفل الصفحة
-      ,position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 100 //
+      borderTop: '2px solid #0F172A',
+      marginTop: 'auto'
     }}>
       
       <div style={{ 
