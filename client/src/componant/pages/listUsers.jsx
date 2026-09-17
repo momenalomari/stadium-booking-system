@@ -45,7 +45,8 @@ export default function ListUsers() {
          <Grid container spacing={2} key={user._id} sx={{ marginBottom: "15px" }}>
             <Grid size={3}>{user.name}</Grid>
             <Grid size={3}>{user.email}</Grid>
-            <Grid size={3}>{user.role}</Grid>
+           <Grid size={3}>{user.phone || "غير مسجل"}</Grid>
+           <Grid size={3}>{user.role}</Grid>
             <button>Delete</button>
             <button>Edit</button>
 

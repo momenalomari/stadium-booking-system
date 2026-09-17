@@ -15,6 +15,7 @@ export default function ManageUser() {
                             <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Name</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Email</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Phone</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Role</TableCell>
                             <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
@@ -27,6 +28,7 @@ export default function ManageUser() {
                             <TableCell>{idx+1}</TableCell>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.phone || "غير مسجل"}</TableCell>
                             <TableCell>{user.role}</TableCell>
                             <TableCell></TableCell>
                             <TableCell>

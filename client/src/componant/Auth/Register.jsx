@@ -20,11 +20,10 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirm_password: "",
     role: "user",
-    latitude: "",
-    longitude: "",
     ownershipProof: null,
   });
 
@@ -54,6 +53,7 @@ const Register = () => {
     if (
       formData.name === "" ||
       formData.email === "" ||
+      formData.phone === "" ||
       formData.password === "" ||
       formData.confirm_password === ""
     ) {
@@ -66,24 +66,12 @@ const Register = () => {
       return;
     }
 
+    if (!/^\+?[0-9\s()-]{7,20}$/.test(formData.phone.trim())) {
+      toast.error("أدخل رقم هاتف صحيح");
+      return;
+    }
+
     if (formData.role === "owner") {
-      const latitude = Number(formData.latitude);
-      const longitude = Number(formData.longitude);
-
-      if (
-        !formData.latitude ||
-        !formData.longitude ||
-        !Number.isFinite(latitude) ||
-        latitude < -90 ||
-        latitude > 90 ||
-        !Number.isFinite(longitude) ||
-        longitude < -180 ||
-        longitude > 180
-      ) {
-        toast.error("أدخل إحداثيات صحيحة للملعب");
-        return;
-      }
-
       if (!formData.ownershipProof) {
         toast.error("لا يمكن إنشاء حساب صاحب ملعب بدون مستند يثبت ملكية أو استثمار الملعب");
         return;
@@ -110,6 +98,7 @@ const Register = () => {
       let requestData = {
         name: formData.name,
         email: formData.email,
+        phone: formData.phone.trim(),
         password: formData.password,
         confirm_password: formData.confirm_password,
         role: formData.role,
@@ -120,8 +109,6 @@ const Register = () => {
         Object.entries(requestData).forEach(([key, value]) => {
           ownerRequestData.append(key, value);
         });
-        ownerRequestData.append("latitude", formData.latitude);
-        ownerRequestData.append("longitude", formData.longitude);
         ownerRequestData.append("ownershipProof", formData.ownershipProof);
         requestData = ownerRequestData;
       }
@@ -197,6 +184,18 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
+              label="رقم الهاتف"
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              placeholder="مثال: 0791234567"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               name="password"
               label="كلمة المرور"
               type="password"
@@ -234,28 +233,6 @@ const Register = () => {
                 <Typography variant="subtitle2" sx={{ mt: 2, color: "#006722" }}>
                   بيانات الملعب وإثبات ملكية أو استثمار الملعب
                 </Typography>
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="خط العرض (Latitude)"
-                  name="latitude"
-                  type="number"
-                  inputProps={{ min: -90, max: 90, step: "any" }}
-                  value={formData.latitude}
-                  onChange={handleChange}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  label="خط الطول (Longitude)"
-                  name="longitude"
-                  type="number"
-                  inputProps={{ min: -180, max: 180, step: "any" }}
-                  value={formData.longitude}
-                  onChange={handleChange}
-                />
                 <Button
                   component="label"
                   variant="outlined"
