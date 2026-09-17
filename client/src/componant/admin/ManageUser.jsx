@@ -9,6 +9,7 @@ export default function ManageUser() {
         <div>
             <h1>Manage Users</h1>
             <Paper elevation={3} sx={{ padding: "20px", marginTop: "20px" }}>
+                {users.length} عدد المستخدمين
                 <Table>
                     <TableHead>
                         <TableRow>

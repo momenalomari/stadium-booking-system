@@ -28,7 +28,7 @@ const FieldsList = () => {
       <Typography
         variant="h3"
         align="center"
-        sx={{ mb: 6, fontWeight: "bold", color: "#006722" }}
+        sx={{ mb: 6, fontWeight: "bold", color: "#01822c" }}
       >
         الملاعب المتاحة
       </Typography>

@@ -16,11 +16,14 @@ const Register = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     confirm_password: "",
+    role: "user", // القيمة الافتراضية هي "user"
   });
 
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("user"); // القيمة الافتراضية هي "user"
   const navigate = useNavigate(); // أداة للتنقل بين الصفحات برمجياً
 
   // دالة لتحديث البيانات جوا الـ State عند الكتابة
@@ -39,8 +42,10 @@ const Register = () => {
     if (
       formData.name === "" ||
       formData.email === "" ||
+      formData.phone === "" ||
       formData.password === "" ||
       formData.confirm_password === ""
+
     ) {
       toast.error("الرجاء ملء جميع الحقول");
       return; // return معناها: وقف الكود هون ولا تكمل لتحت
@@ -57,10 +62,14 @@ const Register = () => {
     try {
       // إرسال طلب POST للباك إند ومعه بيانات المستخدم
       // غيرنا الكلمة الأخيرة من register إلى create_user
-      const response = await axios.post(
+    const response = await axios.post(
         "http://localhost:5000/api/users/create_user",
-        formData,
+        {
+          ...formData, // جلب جميع البيانات المكتوبة في الحقول
+          role: role   // دمج الدور الصحيح الذي تم اختياره من الكروت
+        }
       );
+      console.log("الدور اللي رح ينبعث للسيرفر هو:", role);
 
       toast.success(response.data.message || "تم إنشاء الحساب بنجاح! 🎉", {
         toastId: "register_success",
@@ -88,6 +97,7 @@ const Register = () => {
           flexDirection: "column",
           alignItems: "center",
           minHeight: "80vh",
+          backgroundColor: "#f9f9f9",
         }}
       >
         <Paper elevation={3} sx={{ p: 4, width: "100%", borderRadius: "15px" }}>
@@ -116,12 +126,23 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
+              label="الهاتف"
+              name="phone"
+              autoComplete="phone"
+              value={formData.phone}
+              onChange={handleChange}
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
               label="البريد الإلكتروني"
               name="email"
               autoComplete="email"
               value={formData.email}
               onChange={handleChange}
             />
+
             <TextField
               margin="normal"
               required
@@ -145,6 +166,75 @@ const Register = () => {
               value={formData.confirm_password}
               onChange={handleChange}
             />
+            <div
+              style={{
+                display: "flex",
+                gap: "15px",
+                margin: "20px 0",
+                direction: "rtl",
+              }}
+            >
+              {/* كرت الزبون العادي */}
+              <div
+                onClick={() => setRole("user")}
+                style={{
+                  flex: 1,
+                  padding: "15px",
+                  border:
+                    role === "user" ? "2px solid #198754" : "2px solid #ddd",
+                  borderRadius: "8px",
+                  backgroundColor: role === "user" ? "#e8f5e9" : "transparent",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: role === "user" ? "#198754" : "#666",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                🧑‍🦱 زبون عادي
+                <div
+                  style={{
+                    fontSize: "12px",
+                    marginTop: "8px",
+                    color: role === "user" ? "#198754" : "#999",
+                  }}
+                >
+                  أريد حجز الملاعب
+                </div>
+              </div>
+
+              {/* كرت صاحب الملعب */}
+              <div
+                onClick={() => setRole("field_manager")}
+                style={{
+                  flex: 1,
+                  padding: "15px",
+                  border:
+                    role === "field_manager"
+                      ? "2px solid #198754"
+                      : "2px solid #ddd",
+                  borderRadius: "8px",
+                  backgroundColor:
+                    role === "field_manager" ? "#e8f5e9" : "transparent",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: role === "field_manager" ? "#198754" : "#666",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                🏟️ صاحب ملعب
+                <div
+                  style={{
+                    fontSize: "12px",
+                    marginTop: "8px",
+                    color: role === "field_manager" ? "#198754" : "#999",
+                  }}
+                >
+                  أريد إضافة وإدارة ملعبي
+                </div>
+              </div>
+            </div>
             <Button
               type="submit"
               fullWidth

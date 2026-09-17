@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 // استدعاء أدوات التوست
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import AddField from "./componant/manager/addfield.jsx";
 import Hero from "./componant/Landing/landing.jsx";
 import Navbar from "./componant/layout/Navbar/navbar.jsx";
 // 2. كبرنا أول حرف (AdminNavbar) عشان React يفهمه صح
@@ -39,6 +39,7 @@ function AppContent() {
         <Route path="/fields" element={<FieldsList />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/manager/add-field" element={<AddField />} />
         
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/user/dashboard" element={<UserDashboard />} />
