@@ -13,11 +13,13 @@ import {
 import { useFields } from "../Hooks/useField"; // تأكد من مسار مجلد الهوك
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SearchIcon from "@mui/icons-material/Search";
+import BookingDialog from "../booking/BookingDialog.jsx";
 
 
 const FieldsList = () => {
   const { fields, loading } = useFields(); // هون استدعينا العقل المدبر
   const [search, setSearch] = React.useState("");
+  const [bookingField, setBookingField] = React.useState(null);
   const filteredFields = fields.filter((field) => {
     const query = search.trim().toLowerCase();
     return !query || field.name?.toLowerCase().includes(query) || field.location?.toLowerCase().includes(query);
@@ -110,6 +112,8 @@ const FieldsList = () => {
                 color="success"
                 fullWidth
                 sx={{ borderRadius: "20px" }}
+                disabled={field.isAvailable === false}
+                onClick={() => setBookingField(field)}
               >
                 احجز الآن
               </Button>
@@ -117,6 +121,7 @@ const FieldsList = () => {
           </Card>
         ))}
       </Box>
+      <BookingDialog field={bookingField} onClose={() => setBookingField(null)} />
     </Box>
   );
 };
