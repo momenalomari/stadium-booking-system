@@ -85,7 +85,7 @@ const Register = () => {
       }
 
       if (!formData.ownershipProof) {
-        toast.error("الرجاء إرفاق إثبات ملكية الملعب");
+        toast.error("لا يمكن إنشاء حساب صاحب ملعب بدون مستند يثبت ملكية أو استثمار الملعب");
         return;
       }
 
@@ -98,7 +98,7 @@ const Register = () => {
         !allowedProofTypes.includes(formData.ownershipProof.type) ||
         formData.ownershipProof.size > 10 * 1024 * 1024
       ) {
-        toast.error("إثبات الملكية يجب أن يكون PDF أو صورة بحجم أقصى 10MB");
+        toast.error("أرفق سند ملكية أو عقد استثمار بصيغة PDF أو JPG أو PNG وبحجم أقصى 10MB");
         return;
       }
     }
@@ -232,7 +232,7 @@ const Register = () => {
             {formData.role === "owner" && (
               <Box sx={{ mt: 1 }}>
                 <Typography variant="subtitle2" sx={{ mt: 2, color: "#006722" }}>
-                  بيانات الملعب وإثبات الملكية
+                  بيانات الملعب وإثبات ملكية أو استثمار الملعب
                 </Typography>
                 <TextField
                   margin="normal"
@@ -260,20 +260,23 @@ const Register = () => {
                   component="label"
                   variant="outlined"
                   fullWidth
+                  required
                   sx={{ mt: 2, borderRadius: "20px" }}
                 >
                   {formData.ownershipProof
                     ? formData.ownershipProof.name
-                    : "إرفاق إثبات الملكية"}
+                    : "إرفاق سند ملكية أو عقد استثمار الملعب"}
                   <input
                     hidden
+                    required
                     type="file"
                     accept=".pdf,image/jpeg,image/png"
                     onChange={handleProofChange}
                   />
                 </Button>
                 <Typography variant="caption" color="text.secondary">
-                  PDF أو JPG أو PNG، بحد أقصى 10MB
+                  يجب أن يثبت المستند علاقتك بهذا الملعب، مثل سند ملكية أو عقد إيجار/استثمار.
+                  PDF أو JPG أو PNG، بحد أقصى 10MB.
                 </Typography>
               </Box>
             )}
